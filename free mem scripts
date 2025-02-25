@@ -1,0 +1,491 @@
+0 -rw-r--r-- 1 root root 0 May 31 12:51 min_slab_ratio
+0 -rw-r--r-- 1 root root 0 May 31 12:51 min_unmapped_ratio
+0 -rw-r--r-- 1 root root 0 May 31 12:51 mmap_min_addr
+0 -rw------- 1 root root 0 May 31 12:51 mmap_rnd_bits
+0 -rw------- 1 root root 0 May 31 12:51 mmap_rnd_compat_bits
+0 -rw-r--r-- 1 root root 0 May 31 12:51 nr_hugepages
+0 -rw-r--r-- 1 root root 0 May 31 12:51 nr_hugepages_mempolicy
+0 -rw-r--r-- 1 root root 0 May 31 12:51 nr_overcommit_hugepages
+0 -r--r--r-- 1 root root 0 May 31 12:51 nr_pdflush_threads
+0 -rw-r--r-- 1 root root 0 May 31 12:51 numa_zonelist_order
+0 -rw-r--r-- 1 root root 0 May 31 12:51 oom_dump_tasks
+0 -rw-r--r-- 1 root root 0 May 31 12:51 oom_kill_allocating_task
+0 -rw-r--r-- 1 root root 0 May 31 12:51 overcommit_kbytes
+0 -rw-r--r-- 1 root root 0 May 25 10:58 overcommit_memory
+0 -rw-r--r-- 1 root root 0 May 31 12:51 overcommit_ratio
+0 -rw-r--r-- 1 root root 0 May 31 12:51 page-cluster
+0 -rw-r--r-- 1 root root 0 May 31 12:51 panic_on_oom
+0 -rw-r--r-- 1 root root 0 May 31 12:51 percpu_pagelist_fraction
+0 -rw-r--r-- 1 root root 0 May 31 12:51 stat_interval
+0 -rw-r--r-- 1 root root 0 May 31 12:51 swappiness
+0 -rw-r--r-- 1 root root 0 May 31 12:51 user_reserve_kbytes
+0 -rw-r--r-- 1 root root 0 May 31 12:51 vfs_cache_pressure
+0 -rw-r--r-- 1 root root 0 May 31 12:51 zone_reclaim_mode
+[aslcs@ASVMPDMC0518 vm]$ free -m
+              total        used        free      shared  buff/cache   available
+Mem:          64264       23188        2046          27       39030       40444
+Swap:          4091         283        3808
+[aslcs@ASVMPDMC0518 vm]$ cd
+[aslcs@ASVMPDMC0518 ~]$ free && sync && echo 3 > /proc/sys/vm/drop_caches && free
+              total        used        free      shared  buff/cache   available
+Mem:       65807028    23743688     2071968       28200    39991372    41416340
+Swap:       4190204      290304     3899900
+-bash: /proc/sys/vm/drop_caches: Permission denied
+[aslcs@ASVMPDMC0518 ~]$ sudo free && sync && echo 3 > /proc/sys/vm/drop_caches && free
+[sudo] password for aslcs:
+Sorry, try again.
+[sudo] password for aslcs:
+              total        used        free      shared  buff/cache   available
+Mem:       65807028    24033884     1760640       28192    40012504    41126428
+Swap:       4190204      290304     3899900
+-bash: /proc/sys/vm/drop_caches: Permission denied
+[aslcs@ASVMPDMC0518 ~]$ free && sync && echo 3 > /proc/sys/vm/drop_caches && free
+              total        used        free      shared  buff/cache   available
+Mem:       65807028    24031676     1760792       28192    40014560    41128712
+Swap:       4190204      290304     3899900
+-bash: /proc/sys/vm/drop_caches: Permission denied
+[aslcs@ASVMPDMC0518 ~]$ free -m
+              total        used        free      shared  buff/cache   available
+Mem:          64264       23468        1717          27       39078       40164
+Swap:          4091         283        3808
+[aslcs@ASVMPDMC0518 ~]$ sudo free && sync && echo 3 > /proc/sys/vm/drop_caches && free
+              total        used        free      shared  buff/cache   available
+Mem:       65807028    24035324     1734152       28192    40037552    41124388
+Swap:       4190204      290304     3899900
+-bash: /proc/sys/vm/drop_caches: Permission denied
+[aslcs@ASVMPDMC0518 ~]$ chmod -R 777 /proc/sys/vm/drop_caches
+chmod: changing permissions of ‘/proc/sys/vm/drop_caches’: Operation not permitted
+[aslcs@ASVMPDMC0518 ~]$ sudo chmod -R 777 /proc/sys/vm/drop_caches
+chmod: changing permissions of ‘/proc/sys/vm/drop_caches’: Operation not permitted
+[aslcs@ASVMPDMC0518 ~]$ sudo chmod -R 644 /proc/sys/vm/drop_caches
+chmod: changing permissions of ‘/proc/sys/vm/drop_caches’: Operation not permitted
+[aslcs@ASVMPDMC0518 ~]$ ^C
+[aslcs@ASVMPDMC0518 ~]$ sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
+[aslcs@ASVMPDMC0518 ~]$ free -m
+              total        used        free      shared  buff/cache   available
+Mem:          64264       23437       40125          27         701       40251
+Swap:          4091         283        3808
+[aslcs@ASVMPDMC0518 ~]$ 0 7,13,21 * * * sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
+root@JAMOONDB-APP:/# sudo sync; echo 3 | sudo tee /proc/sys/vm/drop_caches          =================================>>>>>>>>>>>>>>>>>>>
+3
+root@JAMOONDB-APP:/# free -h
+               total        used        free      shared  buff/cache   available
+Mem:           7.7Gi       2.1Gi       5.6Gi        13Mi       334Mi       5.7Gi
+Swap:          4.0Gi          0B       4.0Gi
+root@JAMOONDB-APP:/#
+
+###########################################################################################################################################
+[root@localhost ~]# sync; echo 3 > /proc/sys/vm/drop_caches                                                                               #
+[root@localhost ~]# echo 1 > /proc/sys/vm/drop_caches   
+sync; echo 3 > /proc/sys/vm/drop_caches 
+echo 1 > /proc/sys/vm/drop_caches 
+[root@localhost ~]# free -h                                                                                                               #
+              total        used        free      shared  buff/cache   available                                                           #
+Mem:            62G        7.3G         54G         34M        774M         54G                                                           #Mastertrust
+Swap:          9.8G        162M        9.7G
+[root@localhost ~]#
+
+###########################################################################################################################################
+
+ Proc Sys VM Drop Caches Command
+ 
+If we want to empty buffer and cache, we can use this chain of commands:
+
+  #free && sync && echo 3 > /proc/sys/vm/drop_caches && free
+
+What we just saw is one way of dropping cache. There are three ways in which the Linux kernel drops cached items. Each one is the way to delete different cached items. And, it is achieved just by changing the numeric argument to the echo command.
+
+We can use echo 1 to free page cache:
+
+  #echo 1 > /proc/sys/vm/drop_caches
+
+We can use echo 2 to free dentries and inodes:
+
+  #echo 2 > /proc/sys/vm/drop_caches
+
+And, we can use echo 3 to free page cache, dentries, and inodes:
+
+  #echo 3 > /proc/sys/vm/drop_caches
+
+------------------------>>>>>####################sudo sync; echo 3 | sudo tee /proc/sys/vm/drop_caches ################
+
+free && sync && echo 3 > /proc/sys/vm/drop_caches && free | tee /home/aslcs/logfile.txt
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+port=9050
+tmpdir=/database/mysql/mysql_temp
+group_concat_max_len=4294967295
+bind-address=10.9.162.135
+innodb_file_per_table=ON
+event_scheduler=ON
+innodb_buffer_pool_size=10G
+tmp_table_size=3G
+max_heap_table_size=2048M
+max_connections=1000
+query_cache_size=0
+join_buffer_size=10M
+slow_query_log=1
+max_connect_errors=10000
+secure-file-priv=""
+sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+innodb_open_files=5000
+open_files_limit=60000
+#Added the below parameters on 29Sep2020 and 01Oct2020
+innodb_buffer_pool_instances=12
+innodb_lru_scan_depth=100
+sort_buffer_size=10M
+innodb_log_buffer_size=1G
+innodb_log_file_size=1G
+innodb_flush_method=O_DIRECT
+#innodb_force_recovery=1
+#Added the below parameters on 22JUL2020
+#sort_buffer_size=64M
+#innodb_log_buffer_size=1G
+#Commented the below two  parameters on 17092020
+#innodb_buffer_pool_chunk_size=256M
+#innodb_lru_scan_depth=256
+#innodb_flush_method=O_DIRECT
+#innodb_log_file_size=1G
+#datadir=/var/lib/mysql
+#socket=/var/lib/mysql/mysql.sock
+max_allowed_packet=1G
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+#log-error=/var/log/mysqld.log
+#pid-file=/var/run/mysqld/mysqld.pid
+#Replication
+bind-address           = 10.9.162.135
+server-id              = 1
+log_bin                = OFF
+expire-logs-days=2
+
+[aslcs@ASVMPDMC0518 database]$ vi /etc/my.cnf
+
+[7]+  Stopped                 vim /etc/my.cnf
+[aslcs@ASVMPDMC0518 database]$
+[aslcs@ASVMPDMC0518 database]$ sudo vi /etc/my.cnf
+[aslcs@ASVMPDMC0518 database]$ sudo systemctl stop wildfly.service
+[sudo] password for aslcs:
+[aslcs@ASVMPDMC0518 database]$ sudo systemctl stop mysqld.service
+[aslcs@ASVMPDMC0518 database]$ sudo systemctl stop mysqld.service
+[aslcs@ASVMPDMC0518 database]$ sudo rm -rf /database/mysql/OFF.00.*
+[aslcs@ASVMPDMC0518 database]$ sudo rm -rf /database/mysql/OFF.*
+[aslcs@ASVMPDMC0518 database]$ sudo rm -rf /database/mysql/mysql.bin.*
+[aslcs@ASVMPDMC0518 database]$ sudo rm -rf /database/mysql/mysql-bin.*
+[aslcs@ASVMPDMC0518 database]$ df -hT
+Filesystem                  Type      Size  Used Avail Use% Mounted on
+/dev/mapper/OS-root         xfs        20G  5.8G   15G  29% /
+devtmpfs                    devtmpfs   32G     0   32G   0% /dev
+tmpfs                       tmpfs      32G     0   32G   0% /dev/shm
+tmpfs                       tmpfs      32G  226M   32G   1% /run
+tmpfs                       tmpfs      32G     0   32G   0% /sys/fs/cgroup
+/dev/sda1                   xfs      1014M  177M  838M  18% /boot
+/dev/mapper/OS-var          xfs        10G  455M  9.6G   5% /var
+/dev/mapper/OS-home         xfs        10G  163M  9.9G   2% /home
+/dev/mapper/DATA--VG-DB--LV xfs       800G  213G  588G  27% /database
+tmpfs                       tmpfs     6.3G     0  6.3G   0% /run/user/1000
+tmpfs                       tmpfs     6.3G     0  6.3G   0% /run/user/1001
+[aslcs@ASVMPDMC0518 database]$ systemctl start mysqld.service
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
+Authentication is required to manage system services or units.
+Authenticating as: root
+Password:
+[8]+  Stopped                 systemctl start mysqld.service
+[aslcs@ASVMPDMC0518 database]$ sudo systemctl start mysqld.service
+[aslcs@ASVMPDMC0518 database]$ sudo systemctl start wildfly.service
+[aslcs@ASVMPDMC0518 database]$ sudo systemctl status wildfly.service
+● wildfly.service - The WildFly Application Server
+   Loaded: loaded (/etc/systemd/system/wildfly.service; enabled; vendor preset: disabled)
+   Active: active (running) since Wed 2023-05-31 19:52:27 IST; 12s ago
+ Main PID: 14251 (launch.sh)
+    Tasks: 186
+   CGroup: /system.slice/wildfly.service
+           ├─14251 /bin/bash /database/brokerserver/wildfly-12.0.0.Final/bin/launch.sh standalone standalone.xml 0.0.0.0
+           ├─14252 /bin/sh /database/brokerserver/wildfly-12.0.0.Final/bin/standalone.sh -c standalone.xml -b 0.0.0.0
+           └─14306 /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.181-7.b13.el7.x86_64/jre/bin/java -D[Standalone] -server -Xms2048m -Xmx3072m -XX:MetaspaceSize=96M -XX:MaxMe...
+
+May 31 19:52:27 ASVMPDMC0518 systemd[1]: Started The WildFly Application Server.
+[aslcs@ASVMPDMC0518 database]$ sudo systemctl status mysqld.service
+● mysqld.service - MySQL Server
+   Loaded: loaded (/usr/lib/systemd/system/mysqld.service; enabled; vendor preset: disabled)
+   Active: active (running) since Wed 2023-05-31 19:51:43 IST; 1min 16s ago
+     Docs: man:mysqld(8)
+           http://dev.mysql.com/doc/refman/en/using-systemd.html
+  Process: 14167 ExecStart=/usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid $MYSQLD_OPTS (code=exited, status=0/SUCCESS)
+  Process: 14144 ExecStartPre=/usr/bin/mysqld_pre_systemd (code=exited, status=0/SUCCESS)
+ Main PID: 14170 (mysqld)
+    Tasks: 41
+   CGroup: /system.slice/mysqld.service
+           └─14170 /usr/sbin/mysqld --daemonize --pid-file=/var/run/mysqld/mysqld.pid
+
+May 31 19:51:40 ASVMPDMC0518 systemd[1]: Starting MySQL Server...
+May 31 19:51:43 ASVMPDMC0518 systemd[1]: Started MySQL Server.
+[aslcs@ASVMPDMC0518 database]$ pmap 14170 >>mysqlmemalloc.log
+[aslcs@ASVMPDMC0518 database]$ sudo chmod -R 644 /etc/sysconfig/mysql
+  df -h
+  659  free -m
+  660  vi my.cnf
+  661  vi /etc/my.cnf
+  662  sudo /etc/my.cnf
+  663  df -h
+  664  free -m
+  665  cd /proc/sys/vm/
+  666  ls -slh
+  667  free -m
+  668  cd
+  669  free && sync && echo 3 > /proc/sys/vm/drop_caches && free
+  670  sudo free && sync && echo 3 > /proc/sys/vm/drop_caches && free
+  671  free && sync && echo 3 > /proc/sys/vm/drop_caches && free
+  672  free -m
+  673  sudo free && sync && echo 3 > /proc/sys/vm/drop_caches && free
+  674  chmod -R 777 /proc/sys/vm/drop_caches
+  675  sudo chmod -R 777 /proc/sys/vm/drop_caches
+  676*
+  677*
+  678  free -m
+  679  free -h
+  680  free -g
+  681  df -hT
+  682  free -g
+  683  sudo free && sync && echo 3 > /proc/sys/vm/drop_caches && free
+  684  free -g
+  685  whereis jaamoon
+  686  whereis jaamoon_home
+  687  sudo chmod -R 777 /database/brokerserver/Jaamoon_archive_home/etl/inbox
+  688  df -hT
+  689  cd /database/brokerserver/jaamoon_home/install/
+  690  ls
+  691  top
+  692  df -hT
+  693  crontab -l
+  694  cd
+  695  ls
+  696  cat memclear.sh
+  697  cat /etc/redhat-release
+  698  whereis malloc
+  699  cat /etc/sysconfig/mysql
+  700  whereis centos
+  701  rpm -qa|grep lib
+  702  rpm -qa|grep libunwind
+  703  rpm -qa|grep libun
+  704  rpm -qa|grep libunw
+  705  crontab -l
+  706  free -m
+  707  free -h
+  708  free && echo 3 > /proc/sys/vm/drop_caches && free
+  709  sudo free && sysnc &&  echo 3 > /proc/sys/vm/drop_caches && free
+  710  echo 3 > /proc/sys/vm/drop_caches
+  711  sudo echo 3 > /proc/sys/vm/drop_caches
+  712  history
+  713  crontab -l
+  714  cd /database/31_05_2023/
+  715  ls
+  716  ls -lsh
+  717  cd /database/31_05_2023/centos_rhel_7+/
+  718  rpm -ivh /database/31_05_2023/centos_rhel_7+/libunwind-1.2-2.el7.x86_64.rpm
+  719  cd CVS/
+  720  cd
+  721  pwd
+  722  sudo rpm -ivh /database/31_05_2023/centos_rhel_7+/libunwind-1.2-2.el7.x86_64.rpm
+  723  sudo rpm -ivh /database/31_05_2023/centos_rhel_7+/gperftools-libs-2.4-8.el7.x86_64.rpm
+  724  cd /etc/sysconfig/
+  725  touch mysql
+  726  sudo touch mysql
+  727  cat /etc/sysconfig/mysql
+  728  vi  /etc/sysconfig/mysql
+  729  sudo chmod -R 777 /etc/sysconfig/mysql
+  730  vi  /etc/sysconfig/mysql
+  731  vi /etc/sysconfig/mysql
+  732  rm -r /etc/sysconfig/mysql
+  733  sudo rm -r /etc/sysconfig/mysql
+  734  ls -lsh
+  735  touch mysql.txt
+  736  sudo touch mysql.txt
+  737  vi mysql.txt
+  738  sudo chmod -R 777 /etc/sysconfig/ mysql.txt
+  739  vi mysql.txt
+  740  systemctl status mysqld.service
+  741  ps -ef|grep java
+  742  systemctl status wildfly.service
+  743  systemctl stop wildfly.service
+  744  systemctl status wildfly.service
+  745  sudo systemctl stop wildfly.service
+  746  sudo systemctl stop mysqld.service
+  747  sudo systemctl start mysqld.service
+  748  sudo systemctl start wildfly.service
+  749  systemctl status wildfly.service
+  750  systemctl status mysqld.service
+  751  ps -ef|grep mysql
+  752  pmap 10124 >> mysqlmemalloc.log
+  753  crontab -e
+  754  ps -ef|grep mysqld
+  755  pmap 10124 >> mysqlmemalloc.log
+  756  ps -ef|grep mysqld
+  757  pmap 10124 >> mysqlmemalloc.log
+  758  cd
+  759  pwd
+  760  cd /database/
+  761  pmap 10124 >> mysqlmemalloc.log
+  762  crontab -e
+  763  crontab -l
+  764  crontab -e
+  765  crontab -l
+  766  df -hT
+  767  sudo chown mysql:mysql /database/mysql/mysql_temp
+  768  cat /etc/my.cnf
+  769  vi /etc/my.cnf
+  770  sudo vi /etc/my.cnf
+  771  sudo systemctl stop wildfly.service
+  772  sudo systemctl stop mysqld.service
+  773  sudo rm -rf /database/mysql/OFF.00.*
+  774  sudo rm -rf /database/mysql/OFF.*
+  775  sudo rm -rf /database/mysql/mysql.bin.*
+  776  sudo rm -rf /database/mysql/mysql-bin.*
+  777  df -hT
+  778  systemctl start mysqld.service
+  779  sudo systemctl start mysqld.service
+  780  sudo systemctl start wildfly.service
+  781  sudo systemctl status wildfly.service
+  782  sudo systemctl status mysqld.service
+  783  pmap 14170 >>mysqlmemalloc.log
+  784  sudo chmod -R 644 /etc/sysconfig/mysql
+  785  history
+  ================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>=================================================
+  root@JAMOONDB-APP:/# sudo sync; echo 3 | sudo tee /proc/sys/vm/drop_caches
+  3
+  root@JAMOONDB-APP:/# free -h
+                 total        used        free      shared  buff/cache   available
+  Mem:           7.7Gi       2.1Gi       5.6Gi        13Mi       334Mi       5.7Gi
+  Swap:          4.0Gi          0B       4.0Gi
+  root@JAMOONDB-APP:/#
+
+  
+[aslcs@ASVMPDMC0518 database]$
+
+
+#!/bin/bash
+
+log_file="/home/freem.log"
+
+# Log current memory usage
+free -h >> "$log_file"
+
+# Clear PageCache, dentries, and inodes
+sudo sync
+sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
+
+# Log memory usage after freeing
+free -h >> "$log_file"
+
+echo "Memory freed successfully." >> "$log_file"
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+                              ####AR and Reigare ######
+
+
+#!/bin/bash
+
+log_file="/home/tejosma/freem.log"
+
+# Check memory before clearing.
+echo "$(date +"%Y -%m -%d %H:%M:%S"): Before clearing the memory" >> "$log_file"
+free -g >> "$log_file"
+
+# Clearing memory
+sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
+
+# Log
+if [ $? -eq 0 ]; then
+  echo "$(date +"%Y -%m -%d %H:%M:%S"): Memory cleared successfully" >> "$log_file"
+else
+  echo "$(date +"%Y -%m -%d %H:%M:%S"): Memory cleared unsuccessfully" >> "$log_file"
+fi
+
+# After clearing memory
+echo "$(date +"%Y -%m -%d %H:%M:%S"): After clearing the memory" >> "$log_file"
+free -g >> "$log_file"
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+find /home/jamoon_admin/tejosma/jaamoon_home/etl/inbox -type f -name '10*.txt' -o -name 'Portfolio*.txt' -o -name '*Portfolio*.txt' -exec rm -rf {} \;
+
+find /home/jamoon_admin/tejosma/jaamoon_home/etl/inbox \( -name '10*.txt' -o -name 'Portfolio*.txt' -o -name '*Portfolio*.txt' \) -type f -delete
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+0 2 * * * mv -f/home/pred_backup/* /home/tejosma/jaamoon_home/pred/inbox/*  /home/pred_backup/  /home/pred_backup/ /home/tejosma/jaamoon_home/pred/inbox/ && rm -rf /home/tejosma/pred/*
+
+0 2 * * * rsync -av --remove-source-files /home/tejosma/jaamoon_home/etl/inbox/*  /home/pred_backup/stock/
+---------------------------------------------------------------------------------------------------------------------------------
+
+#!/bin/bash
+
+log_file="/home/tejosma/service.log"
+
+# Check service status before stopping.
+echo "$(date +"%Y -%m -%d %H:%M:%S"): Before stopping the service ." >> "$log_file"
+systemctl status feedengine.service >> "$log_file"
+
+# service cmd
+systemctl start feedengine.service
+
+# Log
+if [ $? -eq 0 ]; then
+  echo "$(date +"%Y -%m -%d %H:%M:%S"): stopped service successfully" >> "$log_file"
+else
+  echo "$(date +"%Y -%m -%d %H:%M:%S"): stopped service unsuccessfully" >> "$log_file"
+fi
+
+# Check service status after stopping.
+echo "$(date +"%Y -%m -%d %H:%M:%S"): After stopping the service " >> "$log_file"
+systemctl status feedengine.service >> "$log_file"
+
+ touch /home/tejosma/jaamoon_home/etl/inbox/stockpred.csv && chmod 707 /home/tejosma/jaamoon_home/etl/inbox/stockpred.csv
+================================================================================================================================
+
+@echo off
+Change to the drive
+C:
+
+ Change directory to the path
+cd C:\tejosma\
+
+Connect to MySQL and run the SQL file
+mysql -uroot -ptejosma -h 10.27.28.234 -P3306 -e "USE sma_blink; SOURCE archive_manual.sql;"
+
+
+sudo sync; echo 3 | sudo tee /proc/sys/vm/drop_caches
+-------------------------------------------
+The htop command is a powerful interactive process viewer for Unix systems. It provides a real-time, detailed overview of system processes and resource usage. Here are the main details displayed by htop:
+
+Header Area:
+
+CPU Usage: Displays the usage of each CPU core. Different colors represent different types of usage (e.g., user, system, nice, idle, IO wait).
+Memory and Swap Usage: Shows the total, used, and free memory and swap space.
+Load Average: Displays the system load averages for the last 1, 5, and 15 minutes.
+Uptime: Shows how long the system has been running.
+Process List Area:
+
+PID: Process ID.
+USER: The user who owns the process.
+PRI: The priority of the process.
+NI: The nice value of the process, which affects its priority.
+VIRT: The virtual memory used by the process.
+RES: The resident memory (physical memory) used by the process.
+SHR: Shared memory used by the process.
+S: The status of the process (e.g., S for sleeping, R for running).
+%CPU: The percentage of CPU usage by the process.
+%MEM: The percentage of memory usage by the process.
+TIME+: The total CPU time used by the process.
+COMMAND: The command that started the process.
+
+3
+
+RES means the actual memory assigned currently to the running process in (physical memory) resident in RAM.
+
+VIRT shows virtual memory (assigned on the hard disk and/or RAM) to the process (as explained in the man page).
+
+https://www.baeldung.com/cs/physical-vs-virtual-memory
+
+del /F /Q "C:\tejosma\jamoon_home\diagnosis\*"
+rmdir /s /q "C:\tejosma\jamoon_home\"
